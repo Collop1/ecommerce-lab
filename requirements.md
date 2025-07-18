@@ -1,4 +1,4 @@
-# Individual Painting Artist's Ecommerce Website Purpose
+# Individual Painting Artist's Ecommerce Website Requirements
 
 ## Who is the user?
 
@@ -38,6 +38,10 @@
    - Payment method selection
    - Order summary
 
+6. **Dashboard page**
+   - Customer details
+   - Order history
+
 ## What interactions do we expect?
 1. **Basic browsing**
    - View available paintings
@@ -55,3 +59,7 @@
    - Enter payment details
    - Place order
    - Receive confirmation
+
+4. **Customer dashboard**
+   - See/edit your info (address, card, name etc)
+   - See order history
