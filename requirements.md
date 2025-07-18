@@ -1,4 +1,4 @@
-# Individual Painting Artist's Ecommerce Website Purpose
+# Individual Painting Artist's Ecommerce Website Requirements
 
 ## Who is the user?
 
