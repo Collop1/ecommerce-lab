@@ -1,5 +1,10 @@
+// components.js - Handles reusable UI components like header and footer
+
 // Function to load the header
 function loadHeader() {
+    const header = document.querySelector('header');
+    if (!header) return;
+    
     const headerHTML = `
     <div class="logo-container">
         <img src="assets/creative-paints-logo.png" alt="Creative Paints Logo">
@@ -15,7 +20,10 @@ function loadHeader() {
         </ul>
     </nav>
     <div class="cart-icon">
-        <a href="#" id="cart-dropdown-toggle"><i class="fas fa-shopping-cart"></i></a>
+        <a href="#" id="cart-dropdown-toggle">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="cart-count">0</span>
+        </a>
         <div class="cart-dropdown" id="cart-dropdown">
             <!-- Cart items will be dynamically added here -->
             <div class="cart-footer">
@@ -26,11 +34,14 @@ function loadHeader() {
     </div>
     `;
     
-    document.querySelector('header').innerHTML = headerHTML;
+    header.innerHTML = headerHTML;
 }
 
 // Function to load the footer
 function loadFooter() {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+    
     const footerHTML = `
     <div class="footer-content">
         <div class="footer-links">
@@ -47,7 +58,7 @@ function loadFooter() {
     </div>
     `;
     
-    document.querySelector('footer').innerHTML = footerHTML;
+    footer.innerHTML = footerHTML;
 }
 
 // Initialize components when DOM is loaded

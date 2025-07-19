@@ -109,12 +109,41 @@
                 productDescription.textContent = product.description;
                 
                 // Add event listeners
-                addToCartBtn.addEventListener('click', function() {
+                addToCartBtn.addEventListener('click', function () {
                     addToCart(productId);
                 });
-                
-                buyNowBtn.addEventListener('click', function() {
-                    addToCart(productId);
+
+                buyNowBtn.addEventListener('click', function () {
+
+                    // Get the current product details from the page
+                    const product = {
+                        id: productId,
+                        name: productName.textContent,
+                        price: parseFloat(productPrice.textContent.replace('$', '')),
+                        image: productImg.src,
+                        category: productCategory.textContent
+                    };
+
+                    // Check if product is already in cart
+                    const existingItem = cart.find(item => item.id === productId);
+
+                    if (existingItem) {
+                        existingItem.quantity++;
+                    } else {
+                        cart.push({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: product.image,
+                            quantity: 1
+                        });
+                    }
+
+                    // Save cart to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    console.log('Cart updated for Buy Now:', JSON.stringify(cart));
+
+                    // Redirect to checkout
                     window.location.href = 'checkout.html';
                 });
                 
