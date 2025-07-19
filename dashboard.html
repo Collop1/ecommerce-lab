@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Creative Paints</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded via JavaScript -->
+    <header></header>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        <h1>My Dashboard</h1>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-sidebar">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2 id="user-name">John Doe</h2>
+                    <p id="user-email">email@example.com</p>
+                </div>
+                
+                <ul class="dashboard-nav">
+                    <li class="active" data-tab="details">
+                        <i class="fas fa-user-circle"></i> Personal Details
+                    </li>
+                    <li data-tab="orders">
+                        <i class="fas fa-shopping-bag"></i> Order History
+                    </li>
+                    <li data-tab="payment">
+                        <i class="fas fa-credit-card"></i> Payment Methods
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="dashboard-main">
+                <!-- Personal Details Tab -->
+                <div class="dashboard-tab active" id="details-tab">
+                    <div class="tab-header">
+                        <h2>Personal Details</h2>
+                        <button id="edit-details-btn" class="btn">Edit</button>
+                    </div>
+                    
+                    <div class="details-view" id="details-view">
+                        <div class="detail-group">
+                            <label>Full Name</label>
+                            <p>John Doe</p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label>Email Address</label>
+                            <p>email@example.com</p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label>Phone Number</label>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        
+                        <div class="detail-group">
+                            <label>Address</label>
+                            <p>31 Tweed Place<br>Hamilton<br>New Zealand</p>
+                        </div>
+                    </div>
+                    
+                    <div class="details-edit" id="details-edit" style="display: none;">
+                        <form id="details-form">
+                            <div class="form-group">
+                                <label for="edit-name">Full Name</label>
+                                <input type="text" id="edit-name" name="name" value="John Doe" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-email">Email Address</label>
+                                <input type="email" id="edit-email" name="email" value="email@example.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-phone">Phone Number</label>
+                                <input type="tel" id="edit-phone" name="phone" value="+1 (555) 123-4567">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-street">Street Address</label>
+                                <input type="text" id="edit-street" name="street" value="31 Tweed Place" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-city">City</label>
+                                <input type="text" id="edit-city" name="city" value="Hamilton" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-country">Country</label>
+                                <input type="text" id="edit-country" name="country" value="New Zealand" required>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" id="cancel-edit-btn" class="btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Order History Tab -->
+                <div class="dashboard-tab" id="orders-tab">
+                    <div class="tab-header">
+                        <h2>Order History</h2>
+                    </div>
+                    
+                    <div class="orders-list">
+                        <!-- Order 1 -->
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <h3>Order #12345</h3>
+                                    <p class="order-date">July 15, 2025</p>
+                                </div>
+                                <div class="order-status">
+                                    <span class="status-delivered">Delivered</span>
+                                </div>
+                            </div>
+                            
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <div class="order-item-image">
+                                        <img src="images/painting1.jpg" alt="Product">
+                                    </div>
+                                    <div class="order-item-details">
+                                        <h4><a href="product.html?id=1">Surreal Window Scene</a></h4>
+                                        <p>$79.99 x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="order-footer">
+                                <div class="order-total">
+                                    <span>Total:</span>
+                                    <span>$79.99</span>
+                                </div>
+                                <a href="#" class="btn order-details-btn">View Order Details</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Order 2 -->
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <h3>Order #12344</h3>
+                                    <p class="order-date">June 28, 2025</p>
+                                </div>
+                                <div class="order-status">
+                                    <span class="status-delivered">Delivered</span>
+                                </div>
+                            </div>
+                            
+                            <div class="order-items">
+                                <div class="order-item">
+                                    <div class="order-item-image">
+                                        <img src="images/painting5.jpg" alt="Product">
+                                    </div>
+                                    <div class="order-item-details">
+                                        <h4><a href="product.html?id=5">City Skyline</a></h4>
+                                        <p>$99.99 x 1</p>
+                                    </div>
+                                </div>
+                                <div class="order-item">
+                                    <div class="order-item-image">
+                                        <img src="images/painting3.jpg" alt="Product">
+                                    </div>
+                                    <div class="order-item-details">
+                                        <h4><a href="product.html?id=3">Moonlit Mountain</a></h4>
+                                        <p>$89.99 x 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="order-footer">
+                                <div class="order-total">
+                                    <span>Total:</span>
+                                    <span>$189.98</span>
+                                </div>
+                                <a href="#" class="btn order-details-btn">View Order Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment Methods Tab -->
+                <div class="dashboard-tab" id="payment-tab">
+                    <div class="tab-header">
+                        <h2>Payment Methods</h2>
+                        <button id="add-payment-btn" class="btn">Add New</button>
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-card">
+                            <div class="payment-card-icon">
+                                <i class="fab fa-cc-visa"></i>
+                            </div>
+                            <div class="payment-card-details">
+                                <h3>Visa ending in 7862</h3>
+                                <p>Expires: 09/26</p>
+                            </div>
+                            <div class="payment-card-actions">
+                                <button class="btn btn-small">Edit</button>
+                                <button class="btn btn-small">Delete</button>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <div class="payment-card-icon">
+                                <i class="fab fa-cc-mastercard"></i>
+                            </div>
+                            <div class="payment-card-details">
+                                <h3>MasterCard ending in 4321</h3>
+                                <p>Expires: 12/25</p>
+                            </div>
+                            <div class="payment-card-actions">
+                                <button class="btn btn-small">Edit</button>
+                                <button class="btn btn-small">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="add-payment-form" id="add-payment-form" style="display: none;">
+                        <h3>Add Payment Method</h3>
+                        <form id="payment-form">
+                            <div class="form-group">
+                                <label for="card-number">Card Number</label>
+                                <input type="text" id="card-number" name="card-number" placeholder="XXXX XXXX XXXX XXXX" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="card-name">Cardholder Name</label>
+                                <input type="text" id="card-name" name="card-name" required>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="expiry">Expiry Date</label>
+                                    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="security-code">Security Code</label>
+                                    <input type="text" id="security-code" name="security-code" placeholder="CVC" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Add Card</button>
+                                <button type="button" id="cancel-payment-btn" class="btn">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer will be loaded via JavaScript -->
+    <footer></footer>
+    
+    <!-- Load JavaScript files -->
+    <script src="js/components.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer
+            loadHeader();
+            loadFooter();
+            
+            // Initialize cart
+            initCart();
+            
+            // Dashboard tab navigation
+            const tabLinks = document.querySelectorAll('.dashboard-nav li');
+            const tabs = document.querySelectorAll('.dashboard-tab');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Remove active class from all links and tabs
+                    tabLinks.forEach(l => l.classList.remove('active'));
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked link
+                    this.classList.add('active');
+                    
+                    // Show corresponding tab
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Personal details edit functionality
+            const editDetailsBtn = document.getElementById('edit-details-btn');
+            const detailsView = document.getElementById('details-view');
+            const detailsEdit = document.getElementById('details-edit');
+            const cancelEditBtn = document.getElementById('cancel-edit-btn');
+            const detailsForm = document.getElementById('details-form');
+            
+            if (editDetailsBtn) {
+                editDetailsBtn.addEventListener('click', function() {
+                    detailsView.style.display = 'none';
+                    detailsEdit.style.display = 'block';
+                });
+            }
+            
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', function() {
+                    detailsView.style.display = 'block';
+                    detailsEdit.style.display = 'none';
+                });
+            }
+            
+            if (detailsForm) {
+                detailsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // In a real app, you would save the updated details to a database
+                    // For now, we'll just update the display
+                    
+                    // Get form values
+                    const name = document.getElementById('edit-name').value;
+                    const email = document.getElementById('edit-email').value;
+                    const phone = document.getElementById('edit-phone').value;
+                    const street = document.getElementById('edit-street').value;
+                    const city = document.getElementById('edit-city').value;
+                    const country = document.getElementById('edit-country').value;
+                    
+                    // Update display
+                    document.getElementById('user-name').textContent = name;
+                    document.getElementById('user-email').textContent = email;
+                    
+                    const detailGroups = detailsView.querySelectorAll('.detail-group');
+                    detailGroups[0].querySelector('p').textContent = name;
+                    detailGroups[1].querySelector('p').textContent = email;
+                    detailGroups[2].querySelector('p').textContent = phone;
+                    detailGroups[3].querySelector('p').innerHTML = `${street}<br>${city}<br>${country}`;
+                    
+                    // Switch back to view mode
+                    detailsView.style.display = 'block';
+                    detailsEdit.style.display = 'none';
+                    
+                    // Show success message
+                    showMessage('Personal details updated successfully!');
+                });
+            }
+            
+            // Payment methods functionality
+            const addPaymentBtn = document.getElementById('add-payment-btn');
+            const addPaymentForm = document.getElementById('add-payment-form');
+            const cancelPaymentBtn = document.getElementById('cancel-payment-btn');
+            const paymentForm = document.getElementById('payment-form');
+            
+            if (addPaymentBtn) {
+                addPaymentBtn.addEventListener('click', function() {
+                    addPaymentForm.style.display = 'block';
+                });
+            }
+            
+            if (cancelPaymentBtn) {
+                cancelPaymentBtn.addEventListener('click', function() {
+                    addPaymentForm.style.display = 'none';
+                    paymentForm.reset();
+                });
+            }
+            
+            if (paymentForm) {
+                paymentForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // In a real app, you would save the new payment method to a database
+                    // For now, we'll just add it to the display
+                    
+                    // Get form values
+                    const cardNumber = document.getElementById('card-number').value;
+                    const cardName = document.getElementById('card-name').value;
+                    const expiry = document.getElementById('expiry').value;
+                    
+                    // Create a new payment card
+                    const paymentMethods = document.querySelector('.payment-methods');
+                    const newCard = document.createElement('div');
+                    newCard.className = 'payment-card';
+                    
+                    // Determine card type based on first digit
+                    let cardType = 'fa-credit-card';
+                    if (cardNumber.startsWith('4')) {
+                        cardType = 'fa-cc-visa';
+                    } else if (cardNumber.startsWith('5')) {
+                        cardType = 'fa-cc-mastercard';
+                    } else if (cardNumber.startsWith('3')) {
+                        cardType = 'fa-cc-amex';
+                    }
+                    
+                    // Get last 4 digits
+                    const lastFour = cardNumber.slice(-4);
+                    
+                    newCard.innerHTML = `
+                        <div class="payment-card-icon">
+                            <i class="fab ${cardType}"></i>
+                        </div>
+                        <div class="payment-card-details">
+                            <h3>Card ending in ${lastFour}</h3>
+                            <p>Expires: ${expiry}</p>
+                        </div>
+                        <div class="payment-card-actions">
+                            <button class="btn btn-small">Edit</button>
+                            <button class="btn btn-small">Delete</button>
+                        </div>
+                    `;
+                    
+                    paymentMethods.appendChild(newCard);
+                    
+                    // Reset form and hide it
+                    paymentForm.reset();
+                    addPaymentForm.style.display = 'none';
+                    
+                    // Show success message
+                    showMessage('Payment method added successfully!');
+                    
+                    // Add event listeners to new buttons
+                    const deleteBtn = newCard.querySelector('.payment-card-actions button:nth-child(2)');
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener('click', function() {
+                            if (confirm('Are you sure you want to delete this payment method?')) {
+                                newCard.remove();
+                                showMessage('Payment method deleted');
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Add event listeners to existing delete buttons
+            document.querySelectorAll('.payment-card-actions button:nth-child(2)').forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.payment-card');
+                    if (confirm('Are you sure you want to delete this payment method?')) {
+                        card.remove();
+                        showMessage('Payment method deleted');
+                    }
+                });
+            });
+            
+            // Order details buttons
+            document.querySelectorAll('.order-details-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('Order details functionality would be implemented here');
+                });
+            });
+            
+            // Function to show messages
+            function showMessage(message) {
+                // Create message element if it doesn't exist
+                let messageElement = document.getElementById('dashboard-message');
+                if (!messageElement) {
+                    messageElement = document.createElement('div');
+                    messageElement.id = 'dashboard-message';
+                    messageElement.className = 'dashboard-message';
+                    document.body.appendChild(messageElement);
+                }
+                
+                // Update message
+                messageElement.textContent = message;
+                messageElement.classList.add('show');
+                
+                // Hide message after 3 seconds
+                setTimeout(() => {
+                    messageElement.classList.remove('show');
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
