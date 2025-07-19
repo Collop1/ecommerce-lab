@@ -24,7 +24,7 @@ const Shop = {
         this.setupAddToCartButtons();
     },
     
-    // Display products in the grid
+    // Display products
     displayProducts(productsToDisplay) {
         const productGrid = document.querySelector('.product-grid');
         if (!productGrid) return;
