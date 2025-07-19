@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Creative Paints</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded via JavaScript -->
+    <header></header>
+    
+    <!-- Shop Page Content -->
+    <div class="shop-container">
+        <h1>Paintings</h1>
+        
+        <!-- Filter and Search Bar -->
+        <div class="shop-controls">
+            <div class="filter-controls">
+                <button id="sort-button" class="btn">Sort</button>
+                <button id="categories-button" class="btn">Categories</button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search...">
+            </div>
+        </div>
+        
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading products...</p>
+        </div>
+        
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Products will be loaded dynamically via JavaScript -->
+        </div>
+    </div>
+    
+    <!-- Footer will be loaded via JavaScript -->
+    <footer></footer>
+    
+    <!-- Load JavaScript files -->
+    <script src="js/components.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer
+            loadHeader();
+            loadFooter();
+            
+            // Initialize cart
+            initCart();
+            
+            // Initialize shop page
+            const productGrid = document.querySelector('.product-grid');
+            const loadingIndicator = document.getElementById('loading');
+            let allProducts = [];
+            
+            // Function to display products
+            function displayProducts(products) {
+                productGrid.innerHTML = '';
+                
+                if (products.length === 0) {
+                    productGrid.innerHTML = '<div class="no-products">No products found</div>';
+                    return;
+                }
+                
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p>${product.description}</p>
+                            <p class="price">$${product.price.toFixed(2)}</p>
+                            <button class="btn add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        </div>
+                    `;
+                    productGrid.appendChild(productCard);
+                });
+                
+                // Add event listeners to "Add to Cart" buttons
+                document.querySelectorAll('.add-to-cart').forEach(button => {
+                    button.addEventListener('click', function() {
+                        addToCart(parseInt(this.getAttribute('data-id')));
+                    });
+                });
+            }
+            
+            // Function to sort products
+            function sortProducts(sortOption) {
+                let sortedProducts = [...allProducts];
+                
+                switch(sortOption) {
+                    case 'Price: Low to High':
+                        sortedProducts.sort((a, b) => a.price - b.price);
+                        break;
+                    case 'Price: High to Low':
+                        sortedProducts.sort((a, b) => b.price - a.price);
+                        break;
+                    case 'Name: A to Z':
+                        sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'Name: Z to A':
+                        sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                }
+                
+                displayProducts(sortedProducts);
+            }
+            
+            // Set up sorting button
+            const sortButton = document.getElementById('sort-button');
+            if (sortButton) {
+                sortButton.addEventListener('click', function() {
+                    const sortOptions = ['Price: Low to High', 'Price: High to Low', 'Name: A to Z', 'Name: Z to A'];
+                    const sortMenu = document.createElement('div');
+                    sortMenu.className = 'dropdown-menu';
+                    
+                    sortOptions.forEach(option => {
+                        const optionElement = document.createElement('div');
+                        optionElement.className = 'dropdown-item';
+                        optionElement.textContent = option;
+                        optionElement.addEventListener('click', function() {
+                            sortProducts(option);
+                            sortMenu.remove();
+                        });
+                        sortMenu.appendChild(optionElement);
+                    });
+                    
+                    // Position and show the menu
+                    document.body.appendChild(sortMenu);
+                    const buttonRect = sortButton.getBoundingClientRect();
+                    sortMenu.style.top = (buttonRect.bottom + window.scrollY) + 'px';
+                    sortMenu.style.left = buttonRect.left + 'px';
+                    
+                    // Close menu when clicking outside
+                    document.addEventListener('click', function closeMenu(e) {
+                        if (!sortMenu.contains(e.target) && e.target !== sortButton) {
+                            sortMenu.remove();
+                            document.removeEventListener('click', closeMenu);
+                        }
+                    });
+                });
+            }
+            
+            // Set up categories button
+            const categoriesButton = document.getElementById('categories-button');
+            if (categoriesButton) {
+                categoriesButton.addEventListener('click', function() {
+                    fetchAllCategories(function(categories) {
+                        const categoryMenu = document.createElement('div');
+                        categoryMenu.className = 'dropdown-menu';
+                        
+                        // Add "All" option
+                        const allOption = document.createElement('div');
+                        allOption.className = 'dropdown-item';
+                        allOption.textContent = 'All Categories';
+                        allOption.addEventListener('click', function() {
+                            displayProducts(allProducts);
+                            categoryMenu.remove();
+                        });
+                        categoryMenu.appendChild(allOption);
+                        
+                        // Add category options
+                        categories.forEach(category => {
+                            const optionElement = document.createElement('div');
+                            optionElement.className = 'dropdown-item';
+                            optionElement.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+                            optionElement.addEventListener('click', function() {
+                                fetchProductsByCategory(category, function(products) {
+                                    displayProducts(products);
+                                    categoryMenu.remove();
+                                });
+                            });
+                            categoryMenu.appendChild(optionElement);
+                        });
+                        
+                        // Position and show the menu
+                        document.body.appendChild(categoryMenu);
+                        const buttonRect = categoriesButton.getBoundingClientRect();
+                        categoryMenu.style.top = (buttonRect.bottom + window.scrollY) + 'px';
+                        categoryMenu.style.left = buttonRect.left + 'px';
+                        
+                        // Close menu when clicking outside
+                        document.addEventListener('click', function closeMenu(e) {
+                            if (!categoryMenu.contains(e.target) && e.target !== categoriesButton) {
+                                categoryMenu.remove();
+                                document.removeEventListener('click', closeMenu);
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Set up search functionality
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase().trim();
+                    
+                    if (searchTerm === '') {
+                        displayProducts(allProducts);
+                        return;
+                    }
+                    
+                    const filteredProducts = allProducts.filter(product => 
+                        product.name.toLowerCase().includes(searchTerm) || 
+                        product.description.toLowerCase().includes(searchTerm) ||
+                        product.category.toLowerCase().includes(searchTerm)
+                    );
+                    
+                    displayProducts(filteredProducts);
+                });
+            }
+            
+            // Fetch all products and initialize the page
+            fetchAllProducts(function(products) {
+                allProducts = products;
+                loadingIndicator.style.display = 'none';
+                displayProducts(products);
+            });
+        });
+    </script>
+</body>
+</html>
