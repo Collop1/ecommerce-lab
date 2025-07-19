@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - Creative Paints</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header will be loaded via JavaScript -->
+    <header></header>
+    
+    <!-- Product Detail Content -->
+    <div class="product-container">
+        <!-- Loading indicator -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading product details...</p>
+        </div>
+        
+        <div class="product-detail" style="display: none;">
+            <div class="product-image">
+                <img id="product-img" src="" alt="Product Image">
+            </div>
+            
+            <div class="product-info">
+                <h1 id="product-name"></h1>
+                <p class="product-category">Category: <span id="product-category"></span></p>
+                <p class="product-price" id="product-price"></p>
+                <div class="product-description" id="product-description"></div>
+                
+                <div class="product-actions">
+                    <button id="add-to-cart" class="btn">Add to cart</button>
+                    <button id="buy-now" class="btn btn-primary">Buy now</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Products Section -->
+        <div class="related-products">
+            <h2>You may also like</h2>
+            <div id="loading-related" class="loading">
+                <div class="spinner"></div>
+                <p>Loading related products...</p>
+            </div>
+            <div class="product-grid" id="related-products-grid">
+                <!-- Related products will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer will be loaded via JavaScript -->
+    <footer></footer>
+    
+    <!-- Load JavaScript files -->
+    <script src="js/components.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header and footer
+            loadHeader();
+            loadFooter();
+            
+            // Initialize cart
+            initCart();
+            
+            // Get product ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+            
+            if (!productId) {
+                // No product ID provided, redirect to shop page
+                window.location.href = 'paintings.html';
+                return;
+            }
+            
+            // Elements
+            const loadingIndicator = document.getElementById('loading');
+            const productDetail = document.querySelector('.product-detail');
+            const productImg = document.getElementById('product-img');
+            const productName = document.getElementById('product-name');
+            const productCategory = document.getElementById('product-category');
+            const productPrice = document.getElementById('product-price');
+            const productDescription = document.getElementById('product-description');
+            const addToCartBtn = document.getElementById('add-to-cart');
+            const buyNowBtn = document.getElementById('buy-now');
+            
+            // Fetch product details
+            fetchProductById(productId, function(product) {
+                if (!product) {
+                    // Product not found
+                    loadingIndicator.innerHTML = '<p>Product not found</p>';
+                    return;
+                }
+                
+                // Update page title
+                document.title = `${product.name} - Creative Paints`;
+                
+                // Update product details
+                productImg.src = product.image;
+                productImg.alt = product.name;
+                productName.textContent = product.name;
+                productCategory.textContent = product.category;
+                productPrice.textContent = `$${product.price.toFixed(2)}`;
+                productDescription.textContent = product.description;
+                
+                // Add event listeners
+                addToCartBtn.addEventListener('click', function() {
+                    addToCart(productId);
+                });
+                
+                buyNowBtn.addEventListener('click', function() {
+                    addToCart(productId);
+                    window.location.href = 'checkout.html';
+                });
+                
+                // Hide loading indicator and show product details
+                loadingIndicator.style.display = 'none';
+                productDetail.style.display = 'flex';
+                
+                // Load related products (same category)
+                loadRelatedProducts(product.category, productId);
+            });
+            
+            // Function to load related products
+            function loadRelatedProducts(category, currentProductId) {
+                const relatedProductsGrid = document.getElementById('related-products-grid');
+                const loadingRelated = document.getElementById('loading-related');
+                
+                fetchProductsByCategory(category, function(products) {
+                    // Filter out current product and limit to 3 products
+                    const relatedProducts = products
+                        .filter(product => product.id !== currentProductId)
+                        .slice(0, 3);
+                    
+                    if (relatedProducts.length === 0) {
+                        loadingRelated.innerHTML = '<p>No related products found</p>';
+                        return;
+                    }
+                    
+                    // Clear loading indicator
+                    loadingRelated.style.display = 'none';
+                    
+                    // Add related products
+                    relatedProducts.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+                        productCard.innerHTML = `
+                            <a href="product.html?id=${product.id}">
+                                <img src="${product.image}" alt="${product.name}">
+                                <div class="product-info">
+                                    <h3>${product.name}</h3>
+                                    <p>${product.description}</p>
+                                    <p class="price">$${product.price.toFixed(2)}</p>
+                                </div>
+                            </a>
+                            <button class="btn add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        `;
+                        relatedProductsGrid.appendChild(productCard);
+                    });
+                    
+                    // Add event listeners to "Add to Cart" buttons
+                    relatedProductsGrid.querySelectorAll('.add-to-cart').forEach(button => {
+                        button.addEventListener('click', function(e) {
+                            e.preventDefault(); // Prevent navigation if button is inside a link
+                            addToCart(parseInt(this.getAttribute('data-id')));
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
