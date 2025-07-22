@@ -6,32 +6,40 @@ function loadHeader() {
     if (!header) return;
     
     const headerHTML = `
-    <div class="logo-container">
-        <img src="assets/creative-paints-logo.png" alt="Creative Paints Logo">
-        <span>Creative Paints</span>
-    </div>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="paintings.html">Paintings</a></li>
-            <li><a href="dashboard.html">Dashboard</a></li>
-            <li><a href="signup.html" class="btn">Sign Up</a></li>
-            <li><a href="login.html" class="btn btn-primary">Log In</a></li>
-        </ul>
-    </nav>
-    <div class="cart-icon">
-        <a href="#" id="cart-dropdown-toggle">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count" class="cart-count">0</span>
-        </a>
-        <div class="cart-dropdown" id="cart-dropdown">
-            <!-- Cart items will be dynamically added here -->
-            <div class="cart-footer">
-                <div class="cart-total">Total: $0.00</div>
-                <button class="btn btn-primary">Checkout</button>
+    <section class="navbar-left">
+        <div class="logo-container">
+            <img src="assets/creative-paints-logo.png" alt="Creative Paints Logo">
+            <span>Creative Paints</span>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="paintings.html">Paintings</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </section>
+    <section class="navbar-right">
+        <nav class="auth-links">
+            <ul>
+                <li><a href="signup.html" class="btn">Sign Up</a></li>
+                <li><a href="login.html" class="btn btn-primary">Log In</a></li>
+            </ul>
+        </nav>
+        <div class="cart-icon">
+            <a href="#" id="cart-dropdown-toggle">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cart-count" class="cart-count">0</span>
+            </a>
+            <div class="cart-dropdown" id="cart-dropdown">
+                <!-- Cart items will be dynamically added here -->
+                <div class="cart-footer">
+                    <div class="cart-total">Total: $0.00</div>
+                    <button class="btn btn-primary">Checkout</button>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     `;
     
     header.innerHTML = headerHTML;
