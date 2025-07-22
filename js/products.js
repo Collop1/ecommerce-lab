@@ -1,11 +1,11 @@
 // Handles fetching products from FakeStoreAPI
 
 // Base URL for the Fake Store API
-const baseURL = 'https://fakestoreapi.com';
+const productsURL = 'https://fakestoreapi.com/products';
 
 // Fetch all products from the API
 function fetchAllProducts(callback) {
-    fetch(`${baseURL}/products`)
+    fetch(`${productsURL}`)
         .then(response => response.json())
         .then(data => {
             // Transform the data to match our expected format
@@ -27,7 +27,7 @@ function fetchAllProducts(callback) {
 
 // Fetch a single product by ID
 function fetchProductById(id, callback) {
-    fetch(`${baseURL}/products/${id}`)
+    fetch(`${productsURL}/${id}`)
         .then(response => response.json())
         .then(product => {
             callback({
@@ -47,7 +47,7 @@ function fetchProductById(id, callback) {
 
 // Fetch all categories
 function fetchAllCategories(callback) {
-    fetch(`${baseURL}/products/categories`)
+    fetch(`${productsURL}/categories`)
         .then(response => response.json())
         .then(categories => {
             callback(categories);
@@ -60,7 +60,7 @@ function fetchAllCategories(callback) {
 
 // Fetch products by category
 function fetchProductsByCategory(category, callback) {
-    fetch(`${baseURL}/products/category/${category}`)
+    fetch(`${productsURL}/category/${category}`)
         .then(response => response.json())
         .then(data => {
             const products = data.map(product => ({
